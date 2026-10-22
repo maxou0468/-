@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pour toi... ❤️</title>
+  <!-- Importation d'une typographie moderne -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at center, #ff85a2 0%, #ff527b 50%, #d6336c 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Aura lumineuse en arrière-plan */
+    .glow-bg {
+      position: absolute;
+      width: 350px;
+      height: 350px;
+      background: rgba(255, 255, 255, 0.25);
+      filter: blur(90px);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Carte principale Glassmorphism */
+    .card-container {
+      width: 90%;
+      max-width: 420px;
+      min-height: 380px;
+      padding: 2.5rem 1.8rem;
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.3);
+      text-align: center;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .step {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 100%;
+    }
+
+    .step.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    /* Étape 1 */
+    .love-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 4.5rem;
+      color: #ffffff;
+      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      line-height: 1.2;
+    }
+
+    /* Étape 2 */
+    .proposal-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      line-height: 1.3;
+    }
+
+    /* Zone des boutons */
+    .btn-container {
+      position: relative;
+      width: 100%;
+      height: 160px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 25px;
+    }
+
+    .btn {
+      padding: 16px 36px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
+    }
+
+    /* Bouton Oui immobile */
+    .btn-yes {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      color: #ffffff;
+      box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+      z-index: 5;
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 30px rgba(39, 174, 96, 0.5);
+    }
+
+    /* Conteneur du bouton Non */
+    .btn-no-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-no {
+      background: linear-gradient(135deg, #ff4757, #ff6b81);
+      color: #ffffff;
+      box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+      z-index: 10;
+      touch-action: none;
+    }
+
+    .hint-text {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 400;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Étape 3 (Finale) */
+    .final-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .big-heart {
+      font-size: 6rem;
+      animation: pulse 1.2s ease-in-out infinite alternate;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+      margin-bottom: 0.5rem;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(1.25);
+      }
+    }
+
+    .final-text {
+      font-size: 1.7rem;
+      color: #ffffff;
+      font-weight: 800;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+      line-height: 1.3;
+    }
+
+    /* Cœurs flottants */
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.5rem;
+      pointer-events: none;
+      animation: float 5s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(105vh) scale(0.5) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.3) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg"></div>
+  <div id="hearts-container"></div>
+
+  <div class="card-container" id="card">
+    
+    <!-- Étape 1 : Je t'aime (pendant 2 secondes) -->
+    <div id="step-1" class="step active">
+      <h1 class="love-text">Je t'aime</h1>
+    </div>
+
+    <!-- Étape 2 : Question -->
+    <div id="step-2" class="step">
+      <h2 class="proposal-title">Est-ce que tu veux m'épouser ?</h2>
+      <div class="btn-container" id="btn-area">
+        <button id="btn-yes" class="btn btn-yes">Oui</button>
+        <div id="btn-no-box" class="btn-no-box">
+          <button id="btn-no" class="btn btn-no">Non</button>
+          <span id="hint-text" class="hint-text">(Essaie d'appuyer au moins une fois sur Non)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Étape 3 : Message Final -->
+    <div id="step-3" class="step">
+      <div class="final-content">
+        <div class="big-heart">💖</div>
+        <h2 class="final-text">Ouii . Ad Vitam ma Ama..❤️</h2>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Étape 1 vers Étape 2 (2 secondes)
+    setTimeout(() => {
+      const step1 = document.getElementById('step-1');
+      const step2 = document.getElementById('step-2');
+      
+      step1.style.opacity = '0';
+      setTimeout(() => {
+        step1.classList.remove('active');
+        step2.classList.add('active');
+        setTimeout(() => {
+          step2.style.opacity = '1';
+        }, 50);
+      }, 1000);
+    }, 2000);
+
+    // Déplacement du bouton Non (Uniquement au clic/toucher et restreint AU CADRE)
+    const btnNo = document.getElementById('btn-no');
+    const hintText = document.getElementById('hint-text');
+    const card = document.getElementById('card');
+    let hasClickedNo = false;
+
+    function moveBtnNo(e) {
+      if (e) e.preventDefault();
+
+      // Suppression de la consigne au premier essai
+      if (!hasClickedNo) {
+        hasClickedNo = true;
+        if (hintText) {
+          hintText.style.opacity = '0';
+          setTimeout(() => {
+            hintText.style.display = 'none';
+          }, 300);
+        }
+      }
+
+      // Passer le bouton en position absolue par rapport au cadre
+      btnNo.style.position = 'absolute';
+
+      // Calcul des limites du cadre interne
+      const cardRect = card.getBoundingClientRect();
+      const btnWidth = btnNo.offsetWidth;
+      const btnHeight = btnNo.offsetHeight;
+      const padding = 20;
+
+      const minX = padding;
+      const maxX = cardRect.width - btnWidth - padding;
+      const minY = padding;
+      const maxY = cardRect.height - btnHeight - padding;
+
+      // Position aléatoire sécurisée dans le cadre
+      const randomX = Math.floor(Math.random() * (maxX - minX + 1)) + minX;
+      const randomY = Math.floor(Math.random() * (maxY - minY + 1)) + minY;
+
+      btnNo.style.left = `${randomX}px`;
+      btnNo.style.top = `${randomY}px`;
+    }
+
+    btnNo.addEventListener('touchstart', moveBtnNo, { passive: false });
+    btnNo.addEventListener('click', moveBtnNo);
+
+    // Clic sur Oui
+    const btnYes = document.getElementById('btn-yes');
+    btnYes.addEventListener('click', () => {
+      const step2 = document.getElementById('step-2');
+      const step3 = document.getElementById('step-3');
+
+      step2.style.opacity = '0';
+      setTimeout(() => {
+        step2.classList.remove('active');
+        btnNo.style.display = 'none';
+        
+        step3.classList.add('active');
+        setTimeout(() => {
+          step3.style.opacity = '1';
+        }, 50);
+
+        createHeartShower();
+      }, 500);
+    });
+
+    // Cœurs en arrière-plan
+    function createHearts() {
+      const container = document.getElementById('hearts-container');
+      const heartSymbols = ['❤️', '💖', '💕', '✨'];
+      
+      for(let i = 0; i < 12; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.classList.add('heart');
+          heart.innerText = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+          heart.style.left = Math.random() * 100 + 'vw';
+          heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+          heart.style.fontSize = (Math.random() * 1.2 + 1) + 'rem';
+          container.appendChild(heart);
+
+          setTimeout(() => {
+            heart.remove();
+          }, 7000);
+        }, i * 500);
+      }
+    }
+
+    createHearts();
+    setInterval(createHearts, 5000);
+
+    // Explosion de cœurs au clic sur Oui
+    function createHeartShower() {
+      const container = document.getElementById('hearts-container');
+      for(let i = 0; i < 35; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.classList.add('heart');
+          heart.innerText = '❤️';
+          heart.style.left = Math.random() * 100 + 'vw';
+          heart.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+          heart.style.fontSize = (Math.random() * 1.8 + 1) + 'rem';
+          container.appendChild(heart);
+
+          setTimeout(() => {
+            heart.remove();
+          }, 3000);
+        }, i * 60);
+      }
+    }
+  </script>
+</body>
+</html>
